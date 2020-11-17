@@ -1,11 +1,17 @@
 import time
 import pandas as pd
 import numpy as np
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
 
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
+def get_forward_month_list():
+    now = datetime.now()
+    return Month_Sorted_Month([(now + relativedelta(months=i)).strftime('%b') for i in range(12)])[0:6]
 
 def get_filters():
     """
@@ -18,19 +24,20 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-
     city = input("Enter city name to analyze:").lower()
+
     while city not in CITY_DATA.keys():
         city = input("Enter a valid input:").lower()
-
     # get user input for month (all, january, february, ... , june)
-    month = None
+    month_list = get_forward_month_list()
+    month_list.append("all")
+    print(month_list)
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
 
     day = None
     print('-'*40)
-    return city, month, day
+    return city, month_list, day
 
 
 # def load_data(city, month, day):
