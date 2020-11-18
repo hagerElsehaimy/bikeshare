@@ -13,7 +13,7 @@ CITY_DATA = { 'chicago': 'chicago.csv',
 
 def get_forward_month_list():
     now = datetime.now()
-    return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%b') for month in range(12)])[0:6]
+    return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%B') for month in range(12)])[0:6]
 
 
 def get_city_user_input():
@@ -28,11 +28,11 @@ def get_month_user_input():
     month_list = get_forward_month_list()
     month_list.insert(0, "All")
 
-    month = input("Enter month name from Jan to Jun or type All to skip filtiration:")[:3].title()
+    month = input("Enter month name from Jan to Jun or type All to skip filtiration:").title()
 
     month_flag = True
     while month_flag:
-        if month[:3].title() in month_list:
+        if month in month_list:
             month_flag = False
         else:
             month = input("Enter a valid input")
@@ -46,7 +46,7 @@ def get_day_user_input():
     day_flag = True
     day = input("Enter a valid week day or type all to skip filtiration").title()
     while day_flag:
-        if day.title() in days_list:
+        if day in days_list:
             day_flag = False
         else:
             day = input("Enter a valid input")
@@ -73,7 +73,7 @@ def get_filters():
     # get user input for day of week (all, monday, tuesday, ... sunday)
     day = get_day_user_input()
 
-    print("{}{}{}".format(city,month,day))
+    print("{} {} {}".format(city, month, day))
     print('-'*40)
 
     return city, month, day
