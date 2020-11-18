@@ -65,34 +65,47 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
 
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
+
     city = get_city_user_input()
 
     # get user input for month (all, january, february, ... , june)
+
     month = get_month_user_input()
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
+
     day = get_day_user_input()
 
-    print("{} {} {}".format(city, month, day))
     print('-'*40)
 
     return city, month, day
 
 
-# def load_data(city, month, day):
-#     """
-#     Loads data for the specified city and filters by month and day if applicable.
-#
-#     Args:
-#         (str) city - name of the city to analyze
-#         (str) month - name of the month to filter by, or "all" to apply no month filter
-#         (str) day - name of the day of week to filter by, or "all" to apply no day filter
-#     Returns:
-#         df - Pandas DataFrame containing city data filtered by month and day
-#     """
-#
-#
-#     return df
+def load_data(city, month, day):
+    """
+    Loads data for the specified city and filters by month and day if applicable.
+
+    Args:
+        (str) city - name of the city to analyze
+        (str) month - name of the month to filter by, or "all" to apply no month filter
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+    Returns:
+        df - Pandas DataFrame containing city data filtered by month and day
+    """
+    df = pd.read_csv(CITY_DATA[city])
+    df['Start Time'] = pd.to_datetime(df['Start Time'], format="%Y-%m-%d %H:%M:%S")
+    df['Month'] = df['Start Time'].dt.strftime('%B')
+    df['Day'] = df['Start Time'].dt.strftime('%A')
+
+    if month != "All":
+        df['Month'] = df[df['Month'] == month]
+    # df['Month'] = pd.DatetimeIndex(df['Start Time']).month
+    # df['Month'] = pd.DatetimeIndex(df['Start Time']).day
+    print(month)
+    # print(df['Month'])
+    print(df['Day'])
+
+    return df
 #
 #
 # def time_stats(df):
@@ -168,21 +181,20 @@ def get_filters():
 #     print('-'*40)
 #
 #
-# def main():
-#     while True:
-#         city, month, day = get_filters()
-#         df = load_data(city, month, day)
-#
-#         time_stats(df)
-#         station_stats(df)
-#         trip_duration_stats(df)
-#         user_stats(df)
-#
-#         restart = input('\nWould you like to restart? Enter yes or no.\n')
-#         if restart.lower() != 'yes':
-#             break
-#
-#
-# if __name__ == "__main__":
-# 	main()
-get_filters()
+def main():
+    while True:
+        city, month, day = get_filters()
+        df = load_data(city, month, day)
+        # print(df)
+        # time_stats(df)
+        # station_stats(df)
+        # trip_duration_stats(df)
+        # user_stats(df)
+
+        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        if restart.lower() != 'yes':
+            break
+
+
+if __name__ == "__main__":
+	main()
