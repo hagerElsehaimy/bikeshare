@@ -1,7 +1,7 @@
 import time
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
 import calendar
@@ -39,6 +39,13 @@ def get_month_user_input():
     return month_list[month_no]
 
 
+def get_day_user_input():
+    city = input("Enter city name to analyze:").lower()
+    while city not in CITY_DATA.keys():
+        city = input("Enter a valid input:").lower()
+    return city
+
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -57,18 +64,13 @@ def get_filters():
     month = get_month_user_input()
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
-    date = datetime.strptime('05 11 2020','%d %m %Y')
-    dates_list = []
+    days_list = Weekday_Sorted_Week([calendar.day_name[date] for date in range(7)])
 
-    for day in range(7):
-        date += timedelta(days=1)
-        print(date)
-        dates_list.append(date.weekday())
-    days_list = Weekday_Sorted_Week([calendar.day_name[date] for date in dates_list])
-    day_no = None
 
     print(city)
     print(month)
+    # print(dates_list)
+    print(days_list)
     print('-'*40)
 
     return city, month
