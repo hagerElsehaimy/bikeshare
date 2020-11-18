@@ -7,8 +7,8 @@ from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
 from calendar import day_name
 
 CITY_DATA = { 'chicago': 'chicago.csv',
-              'new york city': 'new_york_city.csv',
-              'washington': 'washington.csv' }
+              'new york': 'new_york_city.csv',
+              'washington': 'washington.csv'}
 
 
 def get_forward_month_list():
@@ -98,13 +98,9 @@ def load_data(city, month, day):
     df['Day'] = df['Start Time'].dt.strftime('%A')
 
     if month != "All":
-        df['Month'] = df[df['Month'] == month]
-    # df['Month'] = pd.DatetimeIndex(df['Start Time']).month
-    # df['Month'] = pd.DatetimeIndex(df['Start Time']).day
-    print(month)
-    # print(df['Month'])
-    print(df['Day'])
-
+        df = df[df.Month.eq(month)]
+    if day != "All":
+        df = df[df.Day.eq(day)]
     return df
 #
 #
@@ -185,7 +181,7 @@ def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
-        # print(df)
+        print(df)
         # time_stats(df)
         # station_stats(df)
         # trip_duration_stats(df)
