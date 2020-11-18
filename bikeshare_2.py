@@ -4,14 +4,14 @@ import numpy as np
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
-
-
+import calendar
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 def get_forward_month_list():
     now = datetime.now()
-    return Month_Sorted_Month([(now + relativedelta(months=i)).strftime('%b') for i in range(12)])[0:6]
+    return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%b') for month in range(12)])[0:6]
+
 
 def get_filters():
     """
@@ -43,10 +43,21 @@ def get_filters():
         except:
             print("Enter a valid input")
     # get user input for day of week (all, monday, tuesday, ... sunday)
+    date = datetime.strptime('05 11 2020','%d %m %Y')
+    dates_list = []
 
-    day = None
+    for day in range(7):
+        date += timedelta(days=1)
+        print(date)
+        dates_list.append(date.weekday())
+    days_list = Weekday_Sorted_Week([calendar.day_name[date] for date in dates_list])
+    day_no = None
+
+    print(dates_list)
+    print(days_list)
     print('-'*40)
-    return city, month_list, day
+
+    return city, month_list[month_no], days_list[day_no]
 
 
 # def load_data(city, month, day):
