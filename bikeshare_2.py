@@ -35,7 +35,7 @@ def get_month_user_input():
         if month in month_list:
             month_flag = False
         else:
-            month = input("Enter a valid input")
+            month = input("Enter a valid input").title()
     return month
 
 
@@ -49,7 +49,7 @@ def get_day_user_input():
         if day in days_list:
             day_flag = False
         else:
-            day = input("Enter a valid input")
+            day = input("Enter a valid input").title()
     return day
 
 
