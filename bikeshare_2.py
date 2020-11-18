@@ -8,10 +8,16 @@ import calendar
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
+
 def get_forward_month_list():
     now = datetime.now()
     return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%b') for month in range(12)])[0:6]
 
+def get_city_user_input():
+    city = input("Enter city name to analyze:").lower()
+    while city not in CITY_DATA.keys():
+        city = input("Enter a valid input:").lower()
+    return city
 
 def get_filters():
     """
@@ -25,9 +31,7 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
 
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    city = input("Enter city name to analyze:").lower()
-    while city not in CITY_DATA.keys():
-        city = input("Enter a valid input:").lower()
+    city = get_city_user_input()
 
     # get user input for month (all, january, february, ... , june)
     month_list = get_forward_month_list()
@@ -36,8 +40,8 @@ def get_filters():
     month_flag = True
 
     while month_flag:
+        month_no = int(input("Enter month number from 1 to 6 or type  0 for all to analyze based on time frame:"))
         try:
-            month_no = int(input("Enter month number from 1 to 6 or type  0 for all to analyze based on time frame:"))
             if month_list[month_no] in month_list:
                 month_flag = False
         except:
