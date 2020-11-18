@@ -5,19 +5,39 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
 import calendar
+
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+
 def get_forward_month_list():
     now = datetime.now()
     return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%b') for month in range(12)])[0:6]
+
 
 def get_city_user_input():
     city = input("Enter city name to analyze:").lower()
     while city not in CITY_DATA.keys():
         city = input("Enter a valid input:").lower()
     return city
+
+
+def get_month_user_input():
+    month_list = get_forward_month_list()
+    month_list.insert(0, "all")
+
+    month_no = int(input("Enter month number from 1 to 6 or type  0 for all to analyze based on time frame:"))
+
+    month_flag = True
+    while month_flag:
+        try:
+            if month_list[month_no] in month_list:
+                month_flag = False
+        except:
+            month_no = int(input("Enter a valid input"))
+    return month_list[month_no]
+
 
 def get_filters():
     """
@@ -34,18 +54,8 @@ def get_filters():
     city = get_city_user_input()
 
     # get user input for month (all, january, february, ... , june)
-    month_list = get_forward_month_list()
-    month_list.insert(0, "all")
+    month = get_month_user_input()
 
-    month_flag = True
-
-    while month_flag:
-        month_no = int(input("Enter month number from 1 to 6 or type  0 for all to analyze based on time frame:"))
-        try:
-            if month_list[month_no] in month_list:
-                month_flag = False
-        except:
-            print("Enter a valid input")
     # get user input for day of week (all, monday, tuesday, ... sunday)
     date = datetime.strptime('05 11 2020','%d %m %Y')
     dates_list = []
@@ -57,11 +67,11 @@ def get_filters():
     days_list = Weekday_Sorted_Week([calendar.day_name[date] for date in dates_list])
     day_no = None
 
-    print(dates_list)
-    print(days_list)
+    print(city)
+    print(month)
     print('-'*40)
 
-    return city, month_list[month_no], days_list[day_no]
+    return city, month
 
 
 # def load_data(city, month, day):
