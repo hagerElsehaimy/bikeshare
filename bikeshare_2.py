@@ -46,6 +46,7 @@ def get_city_user_input():
             city = input("Enter a valid input:").lower()
             return city
     except KeyboardInterrupt as error:
+        os.system('clear')
         error.message = "you've quit the program.\nBye!"
         print(error.message)
         exit(0)
@@ -70,6 +71,7 @@ def get_month_user_input():
                 month = input("Enter a valid input").title()
         return month
     except KeyboardInterrupt as error:
+        os.system('clear')
         error.message = "you've quit the program.\nBye!"
         print(error.message)
         exit(0)
@@ -95,6 +97,7 @@ def get_day_user_input():
         return day
 
     except KeyboardInterrupt as error:
+        os.system('clear')
         error.message = "you've quit the program.\nBye!"
         print(error.message)
         exit(0)
