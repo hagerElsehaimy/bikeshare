@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
 from calendar import day_name
+import os
 
 CITY_DATA = {'chicago': 'chicago.csv',
               'new york': 'new_york_city.csv',
@@ -29,6 +30,7 @@ def get_forward_day_list():
         Returns:
             List of week days names
         """
+
     return Weekday_Sorted_Week([day_name[date] for date in range(7)])
 
 
@@ -38,11 +40,15 @@ def get_city_user_input():
     Returns:
         (str) city name entered by user after validation
     """
-
-    city = input("Enter city name you wanna get statistics about:").lower()
-    while city not in CITY_DATA.keys():
-        city = input("Enter a valid input:").lower()
-    return city
+    try:
+        city = input("Enter city name you wanna get statistics about:").lower()
+        while city not in CITY_DATA.keys():
+            city = input("Enter a valid input:").lower()
+            return city
+    except KeyboardInterrupt as error:
+        error.message = "you've quit the program.\nBye!"
+        print(error.message)
+        exit(0)
 
 
 def get_month_user_input():
@@ -54,16 +60,19 @@ def get_month_user_input():
 
     month_list = get_forward_month_list()
     month_list.insert(0, "All")
-
-    month = input("Enter month name from Jan to Jun or type All to skip filtering:").title()
-
-    month_flag = True
-    while month_flag:
-        if month in month_list:
-            month_flag = False
-        else:
-            month = input("Enter a valid input").title()
-    return month
+    try:
+        month = input("Enter month name from Jan to Jun or type All to skip filtering:").title()
+        month_flag = True
+        while month_flag:
+            if month in month_list:
+                month_flag = False
+            else:
+                month = input("Enter a valid input").title()
+        return month
+    except KeyboardInterrupt as error:
+        error.message = "you've quit the program.\nBye!"
+        print(error.message)
+        exit(0)
 
 
 def get_day_user_input():
@@ -75,14 +84,20 @@ def get_day_user_input():
     days_list = get_forward_day_list()
     days_list.insert(0, "All")
 
-    day_flag = True
-    day = input("Enter a valid week day or type all to skip filtering").title()
-    while day_flag:
-        if day in days_list:
-            day_flag = False
-        else:
-            day = input("Enter a valid input").title()
-    return day
+    try:
+        day_flag = True
+        day = input("Enter a valid week day or type all to skip filtering").title()
+        while day_flag:
+            if day in days_list:
+                day_flag = False
+            else:
+                day = input("Enter a valid input").title()
+        return day
+
+    except KeyboardInterrupt as error:
+        error.message = "you've quit the program.\nBye!"
+        print(error.message)
+        exit(0)
 
 
 def get_filters():
@@ -210,16 +225,19 @@ def user_stats(df):
     try:
         print(df.query('Gender == "Male"').Gender.count())
         print(df.query('Gender == "Female"').Gender.count())
-    except:
-        print("washington doesn't have gender classification\n ")
+    except Exception as error:
+        error.message = "washington doesn't have gender classification\n "
+        print(error.message)
 
     # Display earliest, most recent, and most common year of birth
     try:
         print(int(df.Birth_Year.min()))
         print(int(df.Birth_Year.max()))
         print(int(df.Birth_Year.mode()))
-    except:
-        print("washington doesn't have DOB ")
+    except Exception as error:
+
+        error.message = "washington doesn't have DOB "
+        print()
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
