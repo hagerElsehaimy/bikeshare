@@ -114,10 +114,12 @@ def time_stats(df):
     start_time = time.time()
 
     # display the most common month
-    print(df.Month.mode())
+    if get_month_user_input() != "all":
+        print(df.Month.mode())
 
     # display the most common day of week
-    print(df.Day.mode())
+    if get_day_user_input() != "all":
+        print(df.Day.mode())
 
     # display the  most common start hour
     print(df.Hour.mode())
@@ -183,6 +185,7 @@ def user_stats(df):
         print(df.query('Gender == "Female"').Gender.count())
     except:
         print("washignton doesn't have gender classification")
+
     # Display earliest, most recent, and most common year of birth
     try:
         print(int(df.Birth_Year.min()))
