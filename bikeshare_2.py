@@ -183,13 +183,13 @@ def time_stats(df):
     start_time = time.time()
 
     # display the most common month
-    print("The most common month of travel is: {} ".format(df.Month.mode().iloc(0)))
+    print("The most common month of travel is: {} ".format(df.Month.mode()[0]))
 
     # display the most common day of week
-    print("The most common day of travel is: {} ".format(df.Day.mode()))
+    print("The most common day of travel is: {} ".format(df.Day.mode()[0]))
 
     # display the  most common start hour
-    print("The most common hour of travel is: {} ".format(df.Hour.mode()))
+    print("The most common hour of travel is: {} ".format(df.Hour.mode()[0]))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -203,13 +203,13 @@ def station_stats(df):
     start_time = time.time()
 
     # display most commonly used start station
-    print("The most common used start station is: {} ".format(df.Start_Station.mode()))
+    print("The most common used start station is: {} ".format(df.Start_Station.mode()[0]))
 
     # display most commonly used end station
-    print("The most common used stop station is: {} ".format(df.End_Station.mode()))
+    print("The most common used stop station is: {} ".format(df.End_Station.mode()[0]))
 
     # display most frequent combination of start station and end station trip
-    print("The most common used combination of start station and end station are: {} ".format(df.Stations.mode()))
+    print("The most common used combination of start station and end station are: {} ".format(df.Stations.mode()[0]))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -254,7 +254,7 @@ def user_stats(df):
     try:
         print("The earliest year is: {} ".format(int(df.Birth_Year.min())))
         print("The most recent year is: {} ".format(int(df.Birth_Year.max())))
-        print("The most common year is: {} ".format(int(df.Birth_Year.mode())))
+        print("The most common year is: {} ".format(int(df.Birth_Year.mode()[0])))
     except Exception as error:
 
         error.message = "washington doesn't have DOB "
@@ -271,6 +271,7 @@ def display_raw_data(df):
     Continues asking until they say stop.
     """
     try:
+        # start and end counters that holds the bulk should be shown
         start, end = 0, 4
 
         read_chunks = input('\n May you want to have a look on the raw data? Type yes or no').lower()
@@ -278,6 +279,8 @@ def display_raw_data(df):
         while read_chunks == "yes":
             print(df.loc[start:end, :])
             read_chunks = input('May you want to have a look on more raw data? Type yes or no').lower()
+
+            # increment by 5 to show the next 5 rows
             start = end + 1
             end += 5
     except KeyboardInterrupt as error:
