@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
-from calendar import day_name
+from calendar import day_name,month_name
 from os import system
 
 CITY_DATA = {'chicago': 'chicago.csv',
@@ -18,8 +18,9 @@ def get_forward_month_list():
     Returns:
         List of week months names
     """
-
     now = datetime.now()
+
+    #
     return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%B') for month in range(12)])[0:6]
 
 
@@ -44,7 +45,7 @@ def get_city_user_input():
         city = input("Enter city name you wanna get statistics about:").lower()
         while city not in CITY_DATA.keys():
             city = input("Enter a valid input:").lower()
-            return city
+        return city
     except KeyboardInterrupt as error:
         system('clear')
         error.message = "you've quit the program.\nBye!"
@@ -262,8 +263,11 @@ def display_raw_data(df):
             read_chunks = input('May you want to have a look on more raw data? Type yes or no').lower()
             start = end + 1
             end += 5
-    except KeyboardInterrupt:
-        print('Thank you.')
+    except KeyboardInterrupt as error:
+        system('clear')
+        error.message = "you've quit the program.\nBye!"
+        print(error.message)
+        exit(0)
 
 
 def main():
