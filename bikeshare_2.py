@@ -1,7 +1,7 @@
 import time
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
 from calendar import day_name
@@ -156,9 +156,11 @@ def trip_duration_stats(df):
 
     # display total travel time
     print(df.Trip_Duration.sum())
+    print("time format ",str(timedelta(seconds=int(df.Trip_Duration.sum()))))
 
     # display mean travel time
     print(df.Trip_Duration.mean())
+    print("time format ",str(timedelta(seconds=int(df.Trip_Duration.mean()))))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -176,13 +178,19 @@ def user_stats(df):
 
     # Display counts of gender
     # need to validate only city name
-    print(df.query('Gender == "Male"').Gender.count())
-    print(df.query('Gender == "Female"').Gender.count())
-
+    try:
+        print(df.query('Gender == "Male"').Gender.count())
+        print(df.query('Gender == "Female"').Gender.count())
+    except:
+        print("washignton doesn't have gender classification")
     # Display earliest, most recent, and most common year of birth
-    print(int(df.Birth_Year.min()))
-    print(int(df.Birth_Year.max()))
-    print(int(df.Birth_Year.mode()))
+    try:
+        print(int(df.Birth_Year.min()))
+        print(int(df.Birth_Year.max()))
+        print(int(df.Birth_Year.mode()))
+    except:
+        print("washignton doesn't have DOB")
+
 
 
     print("\nThis took %s seconds." % (time.time() - start_time))
