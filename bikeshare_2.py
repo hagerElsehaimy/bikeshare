@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
 from calendar import day_name
-import os
+from os import system
 
 CITY_DATA = {'chicago': 'chicago.csv',
               'new york': 'new_york_city.csv',
@@ -46,7 +46,7 @@ def get_city_user_input():
             city = input("Enter a valid input:").lower()
             return city
     except KeyboardInterrupt as error:
-        os.system('clear')
+        system('clear')
         error.message = "you've quit the program.\nBye!"
         print(error.message)
         exit(0)
@@ -71,7 +71,7 @@ def get_month_user_input():
                 month = input("Enter a valid input").title()
         return month
     except KeyboardInterrupt as error:
-        os.system('clear')
+        system('clear')
         error.message = "you've quit the program.\nBye!"
         print(error.message)
         exit(0)
@@ -97,7 +97,7 @@ def get_day_user_input():
         return day
 
     except KeyboardInterrupt as error:
-        os.system('clear')
+        system('clear')
         error.message = "you've quit the program.\nBye!"
         print(error.message)
         exit(0)
