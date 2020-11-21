@@ -16,7 +16,7 @@ def get_forward_month_list():
     Returns:
         List of week months names
     """
-    #
+    # fill the list with month names from January to June
     return [month_name[month_no] for month_no in range(1, 7)]
 
 
@@ -27,7 +27,7 @@ def get_forward_day_list():
         Returns:
             List of week days names
         """
-
+    # fill the list with all week days
     return [day_name[date] for date in range(0, 7)]
 
 
@@ -38,15 +38,20 @@ def get_city_user_input():
         (str) city name entered by user after validation
     """
     try:
-        city = input("Enter city name you wanna get statistics about:").lower()
+        # get city name from user
+        city = input("Enter city name you wanna get statistics about \n{}\n>>>".format(list(CITY_DATA.keys()))).lower()
+
+        # check city existence in the list of cities that we've as keys of CITY_DATA
         while city not in CITY_DATA.keys():
-            city = input("Enter a valid input:").lower()
-        return city
+            city = input("Enter a valid input \n{}\n>>>".format(list(CITY_DATA.keys()))).lower()
+        return city  # return the first valid city input entered by user
+
+    # handle user input in case user stopped the program or killed the process
     except KeyboardInterrupt as error:
-        system('clear')
-        error.message = "you've quit the program.\nBye!"
+        system('clear')     # clear the terminal and print a simple quit message
+        error.message = "****you've quit the program.\nBye!****"
         print(error.message)
-        exit(0)
+        exit(0)  # exit the program properly
 
 
 def get_month_user_input():
@@ -55,23 +60,28 @@ def get_month_user_input():
        Returns:
            (str) month name entered by user after validation
        """
-
+    # prepare a list contains [All,January,February,...etc]
     month_list = get_forward_month_list()
     month_list.insert(0, "All")
+
     try:
-        month = input("Enter month name from Jan to Jun or type All to skip filtering:").title()
+        # get user input in titled format to mach month_list elements
+        month = input("Enter month name from Jan to Jun or type All to skip filtering\n{}\n>>>".format(month_list))\
+            .title()
         month_flag = True
+
         while month_flag:
             if month in month_list:
                 month_flag = False
             else:
-                month = input("Enter a valid input").title()
+                month = input("Enter a valid input\n{}\n>>>".format(month_list)).title()
         return month
+        # handle user input in case user stopped the program or killed the process
     except KeyboardInterrupt as error:
-        system('clear')
-        error.message = "you've quit the program.\nBye!"
+        system('clear')  # clear the terminal and print a simple quit message
+        error.message = "****you've quit the program.\nBye!****"
         print(error.message)
-        exit(0)
+        exit(0)  # exit the program properly
 
 
 def get_day_user_input():
@@ -81,23 +91,21 @@ def get_day_user_input():
                (str) day name entered by user after validation
            """
     days_list = get_forward_day_list()
-    print(days_list)
     days_list.insert(0, "All")
-    print(days_list)
 
     try:
         day_flag = True
-        day = input("Enter a valid week day or type all to skip filtering").title()
+        day = input("Enter a valid week day or type all to skip filtering\n{}\n>>>".format(days_list)).title()
         while day_flag:
             if day in days_list:
                 day_flag = False
             else:
-                day = input("Enter a valid input").title()
+                day = input("Enter a valid input\n{}\n>>>".format(days_list)).title()
         return day
 
     except KeyboardInterrupt as error:
         system('clear')
-        error.message = "you've quit the program.\nBye!"
+        error.message = "****you've quit the program.\nBye!****"
         print(error.message)
         exit(0)
 
@@ -115,13 +123,13 @@ def get_filters():
 
     print('Hello! Let\'s explore some US bike share data!')
 
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
+    # get user input for city (chicago, new york, washington). HINT: Use a while loop to handle invalid inputs
     city = get_city_user_input()
 
-    # get user input for month (all, january, february, ... , june)
+    # get user input for month (All, January, February, ... , June)
     month = get_month_user_input()
 
-    # get user input for day of week (all, monday, tuesday, ... sunday)
+    # get user input for day of week (All, Monday, Tuesday, ... Sunday)
     day = get_day_user_input()
 
     print('-'*40)
@@ -140,19 +148,31 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-
+    # read the whole file mapped to entered cit name
     df = pd.read_csv(CITY_DATA[city])
+
+    # Cast Start time into datetime format to extract Months, Days and Hours from
     df['Start Time'] = pd.to_datetime(df['Start Time'], format="%Y-%m-%d %H:%M:%S")
+
     df['Month'] = df['Start Time'].dt.strftime('%B')
+
     df['Day'] = df['Start Time'].dt.strftime('%A')
+
     df['Hour'] = df['Start Time'].dt.strftime('%H')
+
     df['Stations'] = df['Start Station'] + " " + df['End Station']
+
+    # dataframe preprocessing to replace spaces in coloumn names by _ for easy manipulation
     df.columns = [c.replace(' ', '_') for c in df.columns]
 
+    # filter data frame by month
     if month != "All":
         df = df[df.Month.eq(month)]
+
+    # filter data frame by day
     if day != "All":
         df = df[df.Day.eq(day)]
+
     return df
 
 
