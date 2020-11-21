@@ -1,6 +1,5 @@
 import time
 import pandas as pd
-import numpy as np
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
@@ -12,11 +11,34 @@ CITY_DATA = {'chicago': 'chicago.csv',
 
 
 def get_forward_month_list():
+    """
+    Fill a list with week months names automatically.
+
+    Returns:
+        List of week months names
+    """
+
     now = datetime.now()
     return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%B') for month in range(12)])[0:6]
 
 
+def get_forward_day_list():
+    """
+    Fill a list with week days names automatically.
+
+        Returns:
+            List of week days names
+        """
+    return Weekday_Sorted_Week([day_name[date] for date in range(7)])
+
+
 def get_city_user_input():
+    """
+    get User Input for one the city name saved in CITY_DATA
+    Returns:
+        (str) city name entered by user after validation
+    """
+
     city = input("Enter city name you wanna get statistics about:").lower()
     while city not in CITY_DATA.keys():
         city = input("Enter a valid input:").lower()
@@ -24,6 +46,11 @@ def get_city_user_input():
 
 
 def get_month_user_input():
+    """
+    get User Input for one the month name
+       Returns:
+           (str) month name entered by user after validation
+       """
 
     month_list = get_forward_month_list()
     month_list.insert(0, "All")
@@ -40,7 +67,12 @@ def get_month_user_input():
 
 
 def get_day_user_input():
-    days_list = Weekday_Sorted_Week([day_name[date] for date in range(7)])
+    """
+    get User Input for one the day name
+           Returns:
+               (str) day name entered by user after validation
+           """
+    days_list = get_forward_day_list()
     days_list.insert(0, "All")
 
     day_flag = True
@@ -56,24 +88,23 @@ def get_day_user_input():
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
+    It only calls the 3 functions get {cit,month,day} user input.
 
     Returns:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
+
     print('Hello! Let\'s explore some US bike share data!')
 
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-
     city = get_city_user_input()
 
     # get user input for month (all, january, february, ... , june)
-
     month = get_month_user_input()
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
-
     day = get_day_user_input()
 
     print('-'*40)
@@ -92,6 +123,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+
     df = pd.read_csv(CITY_DATA[city])
     df['Start Time'] = pd.to_datetime(df['Start Time'], format="%Y-%m-%d %H:%M:%S")
     df['Month'] = df['Start Time'].dt.strftime('%B')
@@ -175,12 +207,11 @@ def user_stats(df):
     print(df.query('User_Type == "Customer"').User_Type.count())
 
     # Display counts of gender
-    # need to validate only city name
     try:
         print(df.query('Gender == "Male"').Gender.count())
         print(df.query('Gender == "Female"').Gender.count())
     except:
-        print("washington doesn't have gender classification")
+        print("washington doesn't have gender classification\n ")
 
     # Display earliest, most recent, and most common year of birth
     try:
@@ -188,7 +219,7 @@ def user_stats(df):
         print(int(df.Birth_Year.max()))
         print(int(df.Birth_Year.mode()))
     except:
-        print("washington doesn't have DOB")
+        print("washington doesn't have DOB ")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -204,12 +235,13 @@ def display_raw_data(df):
         start, end = 0, 4
 
         read_chunks = input('\n May you want to have a look on the raw data? Type yes or no').lower()
+
         while read_chunks == "y":
             print(df.loc[start:end, :])
             read_chunks = input('May you want to have a look on more raw data? Type yes or no').lower()
             start = end + 1
             end += 5
-    except:
+    except KeyboardInterrupt:
         print('Thank you.')
 
 
