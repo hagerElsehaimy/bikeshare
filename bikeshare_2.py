@@ -114,12 +114,10 @@ def time_stats(df):
     start_time = time.time()
 
     # display the most common month
-    if get_month_user_input() != "all":
-        print(df.Month.mode())
+    print(df.Month.mode())
 
     # display the most common day of week
-    if get_day_user_input() != "all":
-        print(df.Day.mode())
+    print(df.Day.mode())
 
     # display the  most common start hour
     print(df.Hour.mode())
@@ -199,6 +197,25 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
+def display_raw_data(df):
+    """
+    Asks if the user would like to see some lines of data from the filtered dataset.
+    Displays 5 (show_rows) lines, then asks if they would like to see 5 more.
+    Continues asking until they say stop.
+    """
+    try:
+        start, end = 0, 4
+
+        read_chuncks = input('\n    Would you like to see some raw data from the current dataset?\n y or n').lower()
+        while read_chuncks == "y":
+            print(df.loc[start:end, :])
+            read_chuncks = input('\n    Would you like to see some raw data from the current dataset?\n y or n').lower()
+            start = end + 1
+            end += 5
+    except KeyboardInterrupt:
+            print('Thank you.')
+
+
 
 def main():
     while True:
@@ -208,7 +225,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
-
+        display_raw_data(df)
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
