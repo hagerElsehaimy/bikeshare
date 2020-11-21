@@ -28,7 +28,7 @@ def get_month_user_input():
     month_list = get_forward_month_list()
     month_list.insert(0, "All")
 
-    month = input("Enter month name from Jan to Jun or type All to skip filtiration:").title()
+    month = input("Enter month name from Jan to Jun or type All to skip filtering:").title()
 
     month_flag = True
     while month_flag:
@@ -44,7 +44,7 @@ def get_day_user_input():
     days_list.insert(0, "All")
 
     day_flag = True
-    day = input("Enter a valid week day or type all to skip filtiration").title()
+    day = input("Enter a valid week day or type all to skip filtering").title()
     while day_flag:
         if day in days_list:
             day_flag = False
@@ -62,7 +62,7 @@ def get_filters():
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
-    print('Hello! Let\'s explore some US bikeshare data!')
+    print('Hello! Let\'s explore some US bike share data!')
 
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
 
@@ -139,10 +139,8 @@ def station_stats(df):
     # display most commonly used end station
     print(df.End_Station.mode())
 
-
     # display most frequent combination of start station and end station trip
     print(df.Stations.mode())
-
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -156,11 +154,11 @@ def trip_duration_stats(df):
 
     # display total travel time
     print(df.Trip_Duration.sum())
-    print("time format ",str(timedelta(seconds=int(df.Trip_Duration.sum()))))
+    print("time format ", str(timedelta(seconds=int(df.Trip_Duration.sum()))))
 
     # display mean travel time
     print(df.Trip_Duration.mean())
-    print("time format ",str(timedelta(seconds=int(df.Trip_Duration.mean()))))
+    print("time format ", str(timedelta(seconds=int(df.Trip_Duration.mean()))))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -182,7 +180,7 @@ def user_stats(df):
         print(df.query('Gender == "Male"').Gender.count())
         print(df.query('Gender == "Female"').Gender.count())
     except:
-        print("washignton doesn't have gender classification")
+        print("washington doesn't have gender classification")
 
     # Display earliest, most recent, and most common year of birth
     try:
@@ -190,12 +188,11 @@ def user_stats(df):
         print(int(df.Birth_Year.max()))
         print(int(df.Birth_Year.mode()))
     except:
-        print("washignton doesn't have DOB")
-
-
+        print("washington doesn't have DOB")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
+
 
 def display_raw_data(df):
     """
@@ -206,15 +203,14 @@ def display_raw_data(df):
     try:
         start, end = 0, 4
 
-        read_chuncks = input('\n    Would you like to see some raw data from the current dataset?\n y or n').lower()
-        while read_chuncks == "y":
+        read_chunks = input('\n May you want to have a look on the raw data? Type yes or no').lower()
+        while read_chunks == "y":
             print(df.loc[start:end, :])
-            read_chuncks = input('\n    Would you like to see some raw data from the current dataset?\n y or n').lower()
+            read_chunks = input('May you want to have a look on more raw data? Type yes or no').lower()
             start = end + 1
             end += 5
-    except KeyboardInterrupt:
-            print('Thank you.')
-
+    except:
+        print('Thank you.')
 
 
 def main():
