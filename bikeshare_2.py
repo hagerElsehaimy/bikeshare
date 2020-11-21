@@ -183,13 +183,13 @@ def time_stats(df):
     start_time = time.time()
 
     # display the most common month
-    print(df.Month.mode())
+    print("The most common month of travel is: {} ".format(df.Month.mode().iloc(0)))
 
     # display the most common day of week
-    print(df.Day.mode())
+    print("The most common day of travel is: {} ".format(df.Day.mode()))
 
     # display the  most common start hour
-    print(df.Hour.mode())
+    print("The most common hour of travel is: {} ".format(df.Hour.mode()))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -203,13 +203,13 @@ def station_stats(df):
     start_time = time.time()
 
     # display most commonly used start station
-    print(df.Start_Station.mode())
+    print("The most common used start station is: {} ".format(df.Start_Station.mode()))
 
     # display most commonly used end station
-    print(df.End_Station.mode())
+    print("The most common used stop station is: {} ".format(df.End_Station.mode()))
 
     # display most frequent combination of start station and end station trip
-    print(df.Stations.mode())
+    print("The most common used combination of start station and end station are: {} ".format(df.Stations.mode()))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -222,12 +222,10 @@ def trip_duration_stats(df):
     start_time = time.time()
 
     # display total travel time
-    print(df.Trip_Duration.sum())
-    print("time format ", str(timedelta(seconds=int(df.Trip_Duration.sum()))))
+    print("Total travel time: {} ".format(str(timedelta(seconds=int(df.Trip_Duration.sum())))))
 
     # display mean travel time
-    print(df.Trip_Duration.mean())
-    print("time format ", str(timedelta(seconds=int(df.Trip_Duration.mean()))))
+    print("Time average: {} " .format(str(timedelta(seconds=int(df.Trip_Duration.mean())))))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -240,22 +238,23 @@ def user_stats(df):
     start_time = time.time()
 
     # Display counts of user types
-    print(df.query('User_Type == "Subscriber"').User_Type.count())
-    print(df.query('User_Type == "Customer"').User_Type.count())
+    print("Number of Subscribers: {} ".format(df.query('User_Type == "Subscriber"').User_Type.count()))
+    print("Number of Customers: {}".format(df.query('User_Type == "Customer"').User_Type.count()))
 
     # Display counts of gender
     try:
-        print(df.query('Gender == "Male"').Gender.count())
-        print(df.query('Gender == "Female"').Gender.count())
+        print("Number of Males: {} ".format(df.query('Gender == "Male"').Gender.count()))
+        print("Number of Females: {} ".format(df.query('Gender == "Female"').Gender.count()))
+
     except Exception as error:
         error.message = "washington doesn't have gender classification\n "
         print(error.message)
 
     # Display earliest, most recent, and most common year of birth
     try:
-        print(int(df.Birth_Year.min()))
-        print(int(df.Birth_Year.max()))
-        print(int(df.Birth_Year.mode()))
+        print("The earliest year is: {} ".format(int(df.Birth_Year.min())))
+        print("The most recent year is: {} ".format(int(df.Birth_Year.max())))
+        print("The most common year is: {} ".format(int(df.Birth_Year.mode())))
     except Exception as error:
 
         error.message = "washington doesn't have DOB "
@@ -276,7 +275,7 @@ def display_raw_data(df):
 
         read_chunks = input('\n May you want to have a look on the raw data? Type yes or no').lower()
 
-        while read_chunks == "y":
+        while read_chunks == "yes":
             print(df.loc[start:end, :])
             read_chunks = input('May you want to have a look on more raw data? Type yes or no').lower()
             start = end + 1
