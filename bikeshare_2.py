@@ -1,9 +1,7 @@
 import time
 import pandas as pd
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from sorted_months_weekdays import Month_Sorted_Month, Weekday_Sorted_Week
-from calendar import day_name,month_name
+from calendar import day_name, month_name
 from os import system
 
 CITY_DATA = {'chicago': 'chicago.csv',
@@ -18,11 +16,8 @@ def get_forward_month_list():
     Returns:
         List of week months names
     """
-    now = datetime.now()
-
     #
-    # return Month_Sorted_Month([(now + relativedelta(months=month)).strftime('%B') for month in range(12)])[0:6]
-    return [month_name[month_no] for month_no in range(1,7)]
+    return [month_name[month_no] for month_no in range(1, 7)]
 
 
 def get_forward_day_list():
@@ -33,7 +28,7 @@ def get_forward_day_list():
             List of week days names
         """
 
-    return Weekday_Sorted_Week([day_name[date] for date in range(7)])
+    return [day_name[date] for date in range(0, 7)]
 
 
 def get_city_user_input():
@@ -86,7 +81,9 @@ def get_day_user_input():
                (str) day name entered by user after validation
            """
     days_list = get_forward_day_list()
+    print(days_list)
     days_list.insert(0, "All")
+    print(days_list)
 
     try:
         day_flag = True
