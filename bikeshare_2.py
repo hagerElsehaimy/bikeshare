@@ -274,11 +274,11 @@ def display_raw_data(df):
         # start and end counters that holds the bulk should be shown
         start, end = 0, 4
 
-        read_chunks = input('\n May you want to have a look on the raw data? Type yes or no').lower()
+        read_chunks = input('\n May you want to have a look on the raw data? Type yes to continue or press any button to quit\n >>>').lower()
 
         while read_chunks == "yes":
             print(df.loc[start:end, :])
-            read_chunks = input('May you want to have a look on more raw data? Type yes or no').lower()
+            read_chunks = input('May you want to have a look on more raw data? Type yes to continue or press any button to quit\n >>>').lower()
 
             # increment by 5 to show the next 5 rows
             start = end + 1
