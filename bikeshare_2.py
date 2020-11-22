@@ -9,28 +9,6 @@ CITY_DATA = {'chicago': 'chicago.csv',
               'washington': 'washington.csv'}
 
 
-def get_forward_month_list():
-    """
-    Fill a list with week months names automatically.
-
-    Returns:
-        List of week months names
-    """
-    # fill the list with month names from January to June
-    return [month_name[month_no] for month_no in range(1, 7)]
-
-
-def get_forward_day_list():
-    """
-    Fill a list with week days names automatically.
-
-        Returns:
-            List of week days names
-        """
-    # fill the list with all week days
-    return [day_name[date] for date in range(0, 7)]
-
-
 def get_city_user_input():
     """
     get User Input for one the city name saved in CITY_DATA
@@ -61,9 +39,8 @@ def get_month_user_input():
            (str) month name entered by user after validation
        """
     # prepare a list contains [All,January,February,...etc]
-    month_list = get_forward_month_list()
+    month_list = [month_name[month_no] for month_no in range(1, 7)]
     month_list.insert(0, "All")
-
     try:
         # get user input in titled format to mach month_list elements
         month = input("Enter month name from Jan to Jun or type All to skip filtering\n{}\n>>>".format(month_list))\
@@ -90,7 +67,7 @@ def get_day_user_input():
            Returns:
                (str) day name entered by user after validation
            """
-    days_list = get_forward_day_list()
+    days_list = list(day_name)
     days_list.insert(0, "All")
 
     try:
