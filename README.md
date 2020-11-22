@@ -51,6 +51,7 @@ Randomly selected data for the first six months of 2017 are provided for all thr
     * User Type (Subscriber or Customer)
 
 The Chicago and New York City files also have the following two columns:
+    
     * Gender
     * Birth Year
 
@@ -59,20 +60,24 @@ The Chicago and New York City files also have the following two columns:
 The code helps user to tell about bike share use in Chicago, New York City and Washington by computing a variety of descriptive statistics. In this project, the code output will provide the following information:
 
 Popular times of travel (i.e., occurs most often in the start time):
+    
     * most common month
     * most common day of week
     * most common hour of day
 
 Popular stations and trip:
+    
     * most common start station
     * most common end station
     * most frequent combination of start station and end station)
 
 Trip duration:
+    
     * total travel time
     * average travel time
 
 User info:
+    
     * counts of each user type
     * counts of each gender (only available for NYC and Chicago)
     * earliest, most recent, most common year of birth (only available for NYC and Chicago)
