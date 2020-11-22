@@ -25,6 +25,8 @@ According to the input the code will import the data and will provide informatio
    * https://www.askpython.com/python/examples/convert-seconds-hours-minutes
    * https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.loc.html
    * https://docs.github.com/en/free-pro-team@latest/github/writing-on-github/basic-writing-and-formatting-syntax
+   * https://stackoverflow.com/questions/73663/how-to-terminate-a-python-script
+   * https://www.tutorialspoint.com/how-to-clear-screen-in-python#:~:text=In%20Python%20sometimes%20we%20have,screen%20by%20pressing%20Control%20%2B%20l%20.
 
 ## How it works:
 
@@ -38,6 +40,8 @@ According to the input the code will import the data and will provide informatio
     * Would you like to restart or quit?
 
 The answers to the questions above will determine the city and timeframe on which you'll do data analysis. After filtering the dataset, users will see the statistical result of the data, and choose to start again or exit.
+
+** Note that the project has a ```clear()``` function that clears the terminal after few seconds and that needs to define the enviromnet variable ```TERM=xterm-color``` to enable this function properly.
 
 ### The Datasets:
 
